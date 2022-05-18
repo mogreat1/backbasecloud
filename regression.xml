@@ -4,6 +4,7 @@
     <test name="Regression">
         <classes>
             <class name="tests.CreateArticleTest"/>
+            <class name="tests.DeleteArticleTest"/>
         </classes>
     </test> <!-- Test -->
 </suite> <!-- Suite -->

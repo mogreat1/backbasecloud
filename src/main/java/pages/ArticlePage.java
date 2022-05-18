@@ -26,6 +26,10 @@ public class ArticlePage extends BasePage {
     private WebElement noArticleContentException;
     @FindBy(xpath = "//notUniqueArticleTitleException")
     private WebElement notUniqueArticleTitleException;
+    @FindBy(xpath = "//*[contains(text(),'New Article')]")
+    private WebElement newArticleButton;
+    @FindBy(xpath = "//button[contains(text(),'Delete Article')]")
+    private WebElement deleteArticleButton;
 
     public ArticlePage assertArticleTitleIsDisplayed() {
         Assert.assertTrue(isWebElementDisplayed(articleTitle));
@@ -55,5 +59,20 @@ public class ArticlePage extends BasePage {
     public ArticlePage assertNoArticleContentExceptionIsDisplayed() {
         Assert.assertTrue(isWebElementDisplayed(noArticleContentException));
         return this;
+    }
+
+    public ArticlePage assertNotUniqueArticleTitleExceptionIsDisplayed() {
+        Assert.assertTrue(isWebElementDisplayed(notUniqueArticleTitleException));
+        return this;
+    }
+
+    public CreateNewArticlePage clickNewArticleButton() {
+        clickElement(newArticleButton);
+        return new CreateNewArticlePage(driver);
+    }
+
+    public HomePage clickDeleteArticleButton() {
+        clickElement(deleteArticleButton);
+        return new HomePage(driver);
     }
 }

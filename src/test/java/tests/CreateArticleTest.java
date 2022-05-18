@@ -4,6 +4,7 @@ package tests;
 import base.BaseTest;
 import org.testng.annotations.*;
 import pages.ArticlePage;
+import pages.CreateNewArticlePage;
 import pages.HomePage;
 
 import static utils.Utils.createName;
@@ -20,7 +21,7 @@ public class CreateArticleTest extends BaseTest {
         homePage = signInAccount();
     }
 
-    @Test(dataProvider = "articleDataProvider")
+    @Test(dataProvider = "articleDataProvider", description = "Should Create Article")
     public void shouldCreateArticle(String title, String description, String body, String tags) {
         //when
         articlePage = homePage
@@ -48,7 +49,7 @@ public class CreateArticleTest extends BaseTest {
         };
     }
 
-    @Test
+    @Test(description = "Should validate no Article Title")
     public void shouldValidateNoArticleTitle() {
         //when
         articlePage = homePage
@@ -60,7 +61,7 @@ public class CreateArticleTest extends BaseTest {
                 .assertNoArticleTitleExceptionIsDisplayed();
     }
 
-    @Test
+    @Test(description = "Should validate no Article Content")
     public void shouldValidateNoArticleContent() {
         //when
         articlePage = homePage
@@ -71,5 +72,28 @@ public class CreateArticleTest extends BaseTest {
         //then
         articlePage
                 .assertNoArticleContentExceptionIsDisplayed();
+    }
+
+    @Test(description = "Should validate unique Article Title")
+    public void shouldValidateUniqueArticleValue() {
+        //given
+        String articleTitle = createName("Title");
+
+        CreateNewArticlePage createNewArticlePage = homePage
+                .clickNewArticleButton()
+                .sendTextInArticleTitleTextField(articleTitle)
+                .sendTextInContentTextField(createName("Content"))
+                .clickPublishArticleButton()
+                .clickNewArticleButton();
+
+        //when
+        articlePage = createNewArticlePage
+                .sendTextInArticleTitleTextField(articleTitle)
+                .sendTextInContentTextField(createName("Content"))
+                .clickPublishArticleButton();
+
+        //then
+        articlePage
+                .assertNotUniqueArticleTitleExceptionIsDisplayed();
     }
 }
